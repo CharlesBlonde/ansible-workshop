@@ -1,0 +1,19 @@
+---
+- hosts: mongodb
+  vars:
+  user : ec2-user
+  sudo: yes
+  tasks:
+    - name: Create 10gen repo
+      copy: src=/etc/ansible/playbooks/files/10gen.repo dest=/etc/yum.repos.d/10gen.repo owner=root group=root mode=0644
+    - name: Install MongoDB package
+      yum: name=mongo-10gen state=latest
+      yum: name=mongo-10gen-server state=latest
+    - name: Install MongoDB conf file
+      copy: src=/etc/ansible/playbooks/files/mongod.conf dest=/etc/mongod.conf owner=root group=root mode=644
+      notify:
+      - restart mongodb
+  handlers:
+    - name: restart mongodb
+      service: name=mongod state=restarted enabled=true
+

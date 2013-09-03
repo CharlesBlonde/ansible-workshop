@@ -1,4 +1,4 @@
 ansible-workshop
 ================
 
-Ansible Workshop
+Xebia Ansible Workshop
