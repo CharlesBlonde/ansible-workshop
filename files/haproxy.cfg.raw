@@ -1,0 +1,21 @@
+defaults
+    mode http
+    retries 3
+    option redispatch
+    maxconn 1000
+    timeout client 5000
+    timeout connect 1000
+    timeout server 5000
+
+
+listen cluster <haproxy-ip-or-hostname>:8080
+    balance roundrobin
+    server <server-hostname-1> <server-ip-1>:8080 check inter 200 rise 2 fall 2
+    server <server-hostname-2> <server-ip-2>:8080 check inter 200 rise 2 fall 2
+    option httpchk /cocktail/
+
+listen stats <haproxy-ip-or-hostname>:6970
+    stats enable
+    stats uri /
+
+
